@@ -5,7 +5,7 @@
     "description": "TODO",
     "main": "./build/dist/index.js",
     "scripts": {
-        "build": "rm -rf build && cd lib && tsc && Echo Build completed!",
+        "build": "rm -rf build && cd lib && tsc && echo Build completed!",
         "release": "release-it"
     },
     "repository": {
