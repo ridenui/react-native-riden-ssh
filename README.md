@@ -2,16 +2,23 @@
 
 ## Getting started
 
-`$ npm install react-native-riden-ssh --save`
+`$ npm install react-native-riden-ssh --save` or `$ yarn add react-native-riden-ssh`
 
-### Mostly automatic installation
+### Pod
 
-`$ react-native link react-native-riden-ssh`
+`$ cd ios && pod install && cd ..`
 
 ## Usage
-```javascript
-import ReactNativeRidenSsh from 'react-native-riden-ssh';
+```typescript
+import { SSHClient, SSHConfig } from 'react-native-riden-ssh';
 
-// TODO: What to do with the module?
-ReactNativeRidenSsh;
+const client = new SSHClient({
+    host: "ssh host",
+    username: "ssh user",
+    password: "ssh password",
+    port: 22,
+} as SSHConfig);
+
+const { stdout, stderr, code, signal } = await client.execute("uptime");
+
 ```
