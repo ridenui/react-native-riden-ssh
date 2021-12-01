@@ -1,8 +1,8 @@
-# react-native-riden-ssh
+# @ridenui/react-native-riden-ssh
 
 ## Getting started
 
-`$ npm install react-native-riden-ssh --save` or `$ yarn add react-native-riden-ssh`
+`$ npm install @ridenui/react-native-riden-ssh --save` or `$ yarn add @ridenui/react-native-riden-ssh`
 
 ### Pod
 
@@ -10,7 +10,7 @@
 
 ## Usage
 ```typescript
-import { SSHClient, SSHConfig } from 'react-native-riden-ssh';
+import { SSHClient, SSHConfig } from '@ridenui/react-native-riden-ssh';
 
 const client = new SSHClient({
     host: "ssh host",
