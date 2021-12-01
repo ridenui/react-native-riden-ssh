@@ -1,0 +1,5 @@
+example/
+ios/Pods
+ios/Podfile
+ios/Podfile.lock
+ios/ReactNativeRidenSsh.xc*

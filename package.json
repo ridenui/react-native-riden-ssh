@@ -1,0 +1,39 @@
+{
+    "name": "react-native-riden-ssh",
+    "title": "React Native Riden Ssh",
+    "version": "1.0.0",
+    "description": "TODO",
+    "main": "./build/dist/index.js",
+    "scripts": {
+        "build": "rm -rf build && cd lib && tsc && Echo Build completed!"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/github_account/react-native-riden-ssh.git",
+        "baseUrl": "https://github.com/github_account/react-native-riden-ssh"
+    },
+    "keywords": [
+        "react-native"
+    ],
+    "author": {
+        "name": "Nils Bergmann",
+        "email": "nilsbergmann@noim.io"
+    },
+    "license": "MIT",
+    "licenseFilename": "LICENSE",
+    "readmeFilename": "README.md",
+    "peerDependencies": {
+        "react": ">=16.8.1",
+        "react-native": ">=0.60.0-rc.0 <1.0.x"
+    },
+    "devDependencies": {
+        "@types/react": "^16.9.53",
+        "@types/react-native": "^0.63.25",
+        "prettier": "^2.5.0",
+        "react": "17.0.2",
+        "react-native": "0.66.3",
+        "react-native-typescript-transformer": "^1.2.13",
+        "typescript": "^4.0.3"
+    },
+    "dependencies": {}
+}

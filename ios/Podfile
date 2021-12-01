@@ -1,0 +1,22 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+# Uncomment the next line to define a global platform for your project
+platform :ios, '11.0'
+
+target 'ReactNativeRidenSsh' do
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => false
+  )
+
+  # Pods for ReactNativeRidenSsh
+  pod "NMSSH-riden", :git => "https://github.com/ridenui/NMSSH.git", :modular_headers => true, :tag => "2.4.1"
+
+  post_install do |installer|
+    react_native_post_install(installer)
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  end
+end
