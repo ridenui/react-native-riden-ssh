@@ -11,8 +11,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/github_account/react-native-riden-ssh.git",
-        "baseUrl": "https://github.com/github_account/react-native-riden-ssh"
+        "url": "git+https://github.com/ridenui/react-native-riden-ssh.git",
+        "baseUrl": "https://github.com/ridenui/react-native-riden-ssh"
     },
     "keywords": [
         "react-native"
