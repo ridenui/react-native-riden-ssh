@@ -1,11 +1,12 @@
 {
-    "name": "react-native-riden-ssh",
+    "name": "@ridenui/react-native-riden-ssh",
     "title": "React Native Riden Ssh",
     "version": "1.0.0",
     "description": "TODO",
     "main": "./build/dist/index.js",
     "scripts": {
-        "build": "rm -rf build && cd lib && tsc && Echo Build completed!"
+        "build": "rm -rf build && cd lib && tsc && Echo Build completed!",
+        "release": "release-it"
     },
     "repository": {
         "type": "git",
@@ -33,6 +34,7 @@
         "react": "17.0.2",
         "react-native": "0.66.3",
         "react-native-typescript-transformer": "^1.2.13",
+        "release-it": "^14.11.8",
         "typescript": "^4.0.3"
     },
     "dependencies": {}
