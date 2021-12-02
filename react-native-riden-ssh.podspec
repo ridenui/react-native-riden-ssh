@@ -26,6 +26,6 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
 
-  s.dependency "NMSSH-riden", "~> 2.4.2"
+  s.dependency "NMSSH-riden", "~> 2.5.5"
 end
 

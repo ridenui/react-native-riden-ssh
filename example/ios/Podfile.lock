@@ -73,7 +73,7 @@ PODS:
   - fmt (6.2.1)
   - glog (0.3.5)
   - libevent (2.1.12)
-  - NMSSH-riden (2.4.2)
+  - NMSSH-riden (2.5.5)
   - OpenSSL-Universal (1.1.180)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -273,8 +273,8 @@ PODS:
   - React-jsinspector (0.66.3)
   - React-logger (0.66.3):
     - glog
-  - react-native-riden-ssh (1.0.0):
-    - NMSSH-riden (~> 2.4.2)
+  - react-native-riden-ssh (1.2.0):
+    - NMSSH-riden (~> 2.5.5)
     - React
   - React-perflogger (0.66.3)
   - React-RCTActionSheet (0.66.3):
@@ -372,7 +372,7 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.99.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.99.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - NMSSH-riden (from `../../../NMSSH`)
+  - NMSSH-riden (from `../../../NMSSH`, tag `2.5.5`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -432,6 +432,7 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   NMSSH-riden:
     :git: "../../../NMSSH"
+    :tag: 2.5.5
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -487,8 +488,8 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   NMSSH-riden:
-    :commit: 492dcd07991b282ac569bf55f365f29e0e4d0c30
     :git: "../../../NMSSH"
+    :tag: 2.5.5
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
@@ -508,7 +509,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  NMSSH-riden: 8ad828546c743c22fd1a992deb95ec7937843fc5
+  NMSSH-riden: d264b4151ddd2ccc9448dacdbaa07690a75d68e3
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
   RCTRequired: 59d2b744d8c2bf2d9bc7032a9f654809adcf7d50
@@ -522,7 +523,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 433a691aee158533a6a6ee9c86cb4a1684fa2853
   React-jsinspector: d9c8eb0b53f0da206fed56612b289fec84991157
   React-logger: e522e76fa3e9ec3e7d7115b49485cc065cf4ae06
-  react-native-riden-ssh: 10e7cfdd75369341f3835084c5fc76ca6750e092
+  react-native-riden-ssh: f0bdd91fca8ca41b5c169ddba0ed9abab924d80e
   React-perflogger: 73732888d37d4f5065198727b167846743232882
   React-RCTActionSheet: 96c6d774fa89b1f7c59fc460adc3245ba2d7fd79
   React-RCTAnimation: 8940cfd3a8640bd6f6372150dbdb83a79bcbae6c
@@ -538,6 +539,6 @@ SPEC CHECKSUMS:
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e3571f7d5e6b1fd2b996f8e74582b5dc8935abbc
+PODFILE CHECKSUM: 119fd53cf538c6dc622937b200dbd382c036e665
 
 COCOAPODS: 1.11.2

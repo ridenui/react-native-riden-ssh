@@ -60,7 +60,9 @@ class ReactNativeRidenSsh: NSObject {
             return;
         }
         var error: NSError?;
-        let stdout = sessionMap[connectionId]!.channel.execute(command, error: &error);
+        var stderr: NSString?;
+        var stdout: NSString?;
+        sessionMap[connectionId]!.channel.execute(command, error: &error, stdout_out: &stdout, stderr_out: &stderr);
         if error != nil {
             let exitCodeString: String = error?.userInfo["exit_code"] as? String ?? "1";
             let exitCode = Int(exitCodeString) ?? 1;
@@ -68,16 +70,16 @@ class ReactNativeRidenSsh: NSObject {
             resolve([
                 "code": exitCode,
                 "signal": 1,
-                "stdout": [],
-                "stderr": error!.localizedDescription.split(separator: "\n"),
+                "stdout": String(stdout ?? NSString()).split(separator: "\n"),
+                "stderr": String(stderr ?? NSString()).split(separator: "\n"),
             ])
             return;
         }
         resolve([
             "code": 0,
             "signal": 0,
-            "stdout": stdout.split(separator: "\n"),
-            "stderr": []
+            "stdout": String(stdout ?? NSString()).split(separator: "\n"),
+            "stderr": String(stderr ?? NSString()).split(separator: "\n")
         ])
     }
     

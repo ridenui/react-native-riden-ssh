@@ -18,7 +18,7 @@ target 'example' do
     # Pods for testing
   end
 
-  pod "NMSSH-riden", :git => "../../../NMSSH"
+  pod "NMSSH-riden", :git => "../../../NMSSH", :tag => "2.5.5"
 
   # Enables Flipper.
   #
@@ -28,8 +28,6 @@ target 'example' do
 
   post_install do |installer|
     react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
-    
-    $RNRSSH.post_install(installer)
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)    
   end
 end

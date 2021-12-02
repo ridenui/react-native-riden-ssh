@@ -10,75 +10,81 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {SSHClient} from 'react-native-riden-ssh';
+import {SSHClient} from '@ridenui/react-native-riden-ssh';
 import {SSH_HOST, SSH_USER, SSH_PORT, SSH_PASSWORD} from '@env';
 
 export default class App extends Component<{}> {
-  state = {
-    status: 'starting',
-    uptime: '--',
-    exitCode: '--',
-  };
-  componentDidMount() {
-    const client = new SSHClient({
-      username: SSH_USER,
-      host: SSH_HOST,
-      port: parseInt(SSH_PORT ?? '22', 10),
-      password: SSH_PASSWORD,
-    });
-    client
-      .execute('uptime')
-      .then(response => {
-        console.log(response);
-        this.setState({
-          status: 'native callback received',
-          uptime: response.stdout.join('\n'),
+    state = {
+        status: 'starting',
+        uptime: '--',
+        exitCode: '--',
+    };
+    componentDidMount() {
+        const client = new SSHClient({
+            username: SSH_USER,
+            host: SSH_HOST,
+            port: parseInt(SSH_PORT ?? '22', 10),
+            password: SSH_PASSWORD,
         });
-        return client.execute('exit 42');
-      })
-      .then(response => {
-        console.log(response);
-        this.setState({
-          ...this.state,
-          status: 'native callback received no.2',
-          exitCode: response.code,
-        });
-        return client.disconnect();
-      })
-      .catch(e => {
-        console.error(e);
-      });
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>☆ReactNativeRidenSsh example☆</Text>
-        <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
-        <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-        <Text style={styles.instructions}>{this.state.uptime}</Text>
-        <Text style={styles.instructions}>
-          ExitCode no.2: {this.state.exitCode}
-        </Text>
-      </View>
-    );
-  }
+        client
+            .execute('uptime')
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    status: 'native callback received',
+                    uptime: response.stdout.join('\n'),
+                });
+                return client.execute(
+                    'echo "Normal stdout" && echo "Test stderr" >&2 && exit 42',
+                );
+            })
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    ...this.state,
+                    status: 'native callback received no.2',
+                    exitCode: response.code,
+                });
+                return client.disconnect();
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.welcome}>
+                    ☆ReactNativeRidenSsh example☆
+                </Text>
+                <Text style={styles.instructions}>
+                    STATUS: {this.state.status}
+                </Text>
+                <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
+                <Text style={styles.instructions}>{this.state.uptime}</Text>
+                <Text style={styles.instructions}>
+                    ExitCode no.2: {this.state.exitCode}
+                </Text>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
 });

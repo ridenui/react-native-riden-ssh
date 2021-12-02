@@ -13,7 +13,7 @@ target 'ReactNativeRidenSsh' do
   )
 
   # Pods for ReactNativeRidenSsh
-  pod "NMSSH-riden", :git => "https://github.com/ridenui/NMSSH.git", :modular_headers => true, :tag => "2.4.1"
+  pod "NMSSH-riden", :git => "https://github.com/ridenui/NMSSH.git", :modular_headers => true, :tag => "2.5.5"
 
   post_install do |installer|
     react_native_post_install(installer)

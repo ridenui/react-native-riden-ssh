@@ -11,7 +11,7 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.66.3)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - NMSSH-riden (2.4.1)
+  - NMSSH-riden (2.5.5)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -283,7 +283,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - NMSSH-riden (from `https://github.com/ridenui/NMSSH.git`, tag `2.4.1`)
+  - NMSSH-riden (from `https://github.com/ridenui/NMSSH.git`, tag `2.5.5`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -329,7 +329,7 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   NMSSH-riden:
     :git: https://github.com/ridenui/NMSSH.git
-    :tag: 2.4.1
+    :tag: 2.5.5
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -384,7 +384,7 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   NMSSH-riden:
     :git: https://github.com/ridenui/NMSSH.git
-    :tag: 2.4.1
+    :tag: 2.5.5
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
@@ -393,7 +393,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 6192956c9e346013d5f1809ba049af720b11c6a4
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
-  NMSSH-riden: 96b872d2db76cc0d3c0b77dc9d958f6dc266e1c0
+  NMSSH-riden: d264b4151ddd2ccc9448dacdbaa07690a75d68e3
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
   RCTRequired: 59d2b744d8c2bf2d9bc7032a9f654809adcf7d50
   RCTTypeSafety: d0aaf7ccae5c70a4aaa3a5c3e9e0db97efae760e
@@ -420,6 +420,6 @@ SPEC CHECKSUMS:
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
 
-PODFILE CHECKSUM: 7b6c0d3618f54f697390ee619c5deade0f0ecb51
+PODFILE CHECKSUM: 2b12807cd1526e361c6b417f97bdb7217a757fb3
 
 COCOAPODS: 1.11.2
