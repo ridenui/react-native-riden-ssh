@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.3.0...1.4.0) (2021-12-02)
+
+
+### Features
+
+* **ssh:** allow stdout and stderr at the same time ([e11394a](https://github.com/ridenui/react-native-riden-ssh/commit/e11394a24a75cc34cd6b31ef3bcf2accc37596a0))
+
 # 1.3.0 (2021-12-01)
 
 
