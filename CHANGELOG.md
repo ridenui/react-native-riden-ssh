@@ -1,3 +1,5 @@
+## [1.4.1](https://github.com/ridenui/react-native-riden-ssh/compare/1.4.0...1.4.1) (2021-12-02)
+
 # [1.4.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.3.0...1.4.0) (2021-12-02)
 
 
