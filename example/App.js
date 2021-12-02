@@ -9,7 +9,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 import {SSHClient} from '@ridenui/react-native-riden-ssh';
 import {SSH_HOST, SSH_USER, SSH_PORT, SSH_PASSWORD} from '@env';
 
@@ -18,23 +18,44 @@ export default class App extends Component<{}> {
         status: 'starting',
         uptime: '--',
         exitCode: '--',
+        running: false,
+        php: '--',
+        node: '--',
+        executionTime: '--',
     };
-    componentDidMount() {
-        const client = new SSHClient({
-            username: SSH_USER,
-            host: SSH_HOST,
-            port: parseInt(SSH_PORT ?? '22', 10),
-            password: SSH_PASSWORD,
+
+    client = new SSHClient({
+        username: SSH_USER,
+        host: SSH_HOST,
+        port: parseInt(SSH_PORT ?? '22', 10),
+        password: SSH_PASSWORD,
+    });
+
+    retry() {
+        this.test();
+    }
+
+    disconnect() {
+        this.client.disconnect();
+    }
+
+    test() {
+        if (this.state.running) return;
+        this.setState({
+            ...this.state,
+            running: true,
         });
-        client
+        const start = new Date();
+        this.client
             .execute('uptime')
             .then(response => {
                 console.log(response);
                 this.setState({
+                    ...this.state,
                     status: 'native callback received',
                     uptime: response.stdout.join('\n'),
                 });
-                return client.execute(
+                return this.client.execute(
                     'echo "Normal stdout" && echo "Test stderr" >&2 && exit 42',
                 );
             })
@@ -45,12 +66,33 @@ export default class App extends Component<{}> {
                     status: 'native callback received no.2',
                     exitCode: response.code,
                 });
-                return client.disconnect();
+                // Test parallel execution
+                return Promise.all([
+                    this.client.execute('php --version'),
+                    this.client.execute('node --version'),
+                ]);
+            })
+            .then(responses => {
+                const [php, node] = responses;
+                console.log({php, node});
+                this.setState({
+                    ...this.state,
+                    status: 'native callback received no.3 & no.4',
+                    php: php.stdout.join('\n'),
+                    node: node.stdout.join('\n'),
+                    running: false,
+                    executionTime: new Date() - start,
+                });
             })
             .catch(e => {
                 console.error(e);
             });
     }
+
+    componentDidMount() {
+        this.test();
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -65,6 +107,24 @@ export default class App extends Component<{}> {
                 <Text style={styles.instructions}>
                     ExitCode no.2: {this.state.exitCode}
                 </Text>
+                <Text style={styles.instructions}>PHP: {this.state.php}</Text>
+                <Text style={styles.instructions}>Node: {this.state.node}</Text>
+                <Text style={styles.instructions}>
+                    Exec Time: {this.state.executionTime}
+                </Text>
+                <Button
+                    onPress={() => this.retry()}
+                    title="Rerun"
+                    color="#841584"
+                    accessibilityLabel="Rerun"
+                    disabled={this.state.running}
+                />
+                <Button
+                    onPress={() => this.disconnect()}
+                    title="Disconnect"
+                    color="#841584"
+                    accessibilityLabel="Disconnect"
+                />
             </View>
         );
     }
