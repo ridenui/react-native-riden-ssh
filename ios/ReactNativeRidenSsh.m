@@ -33,6 +33,4 @@
                       channelId: (NSString *)channelId
                       resolver: (RCTPromiseResolveBlock)resolve
                       rejecter: (RCTPromiseRejectBlock)reject)
-
-    RCT_EXTERN_METHOD(__registerAsJSEventEmitter:(int)moduleId)
 @end
