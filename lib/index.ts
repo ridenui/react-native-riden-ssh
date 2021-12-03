@@ -111,7 +111,6 @@ export class SSHClient extends EventEmitter {
                 this.connectionId,
                 command,
                 (functionId, channelId) => {
-                    console.log("Received functionIdNew " + functionId);
                     if (
                         cancelCallback &&
                         typeof cancelCallback === "function"
@@ -126,7 +125,6 @@ export class SSHClient extends EventEmitter {
                     const [removeResolve] = this.addListenerWithRemove(
                         NATIVE_EVENTS.RESOLVE,
                         ([eventFunctionId, args]) => {
-                            console.log("Get event resolve");
                             if (eventFunctionId === functionId) {
                                 clearEvents();
                                 resolve(args[0]);
@@ -136,7 +134,6 @@ export class SSHClient extends EventEmitter {
                     const [removeReject] = this.addListenerWithRemove(
                         NATIVE_EVENTS.REJECT,
                         ([eventFunctionId, args]) => {
-                            console.log("Get event reject");
                             if (eventFunctionId === functionId) {
                                 clearEvents();
                                 reject(args[0]);
