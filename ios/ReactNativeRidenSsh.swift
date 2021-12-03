@@ -99,6 +99,14 @@ class ReactNativeRidenSsh: RCTEventEmitter {
         eventCallback([functionId, channelId]);
         
         let resolverCallback = { (eventName: NATIVE_EVENTS, argArray: [Any]?) in
+            // clean up
+            if self.sessionMap[connectionId] != nil {
+                if self.channelMap[connectionId]?[channelId] != nil {
+                    self.channelMap[connectionId]![channelId]!.close();
+                    self.channelMap[connectionId]![channelId] = nil;
+                }
+            }
+            
 //            print("send event \(eventName)");
             if self.hasListeners {
                 self.sendEvent(withName: eventName.rawValue, body: [functionId, argArray as Any])
