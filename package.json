@@ -7,7 +7,8 @@
     "access": "public",
     "scripts": {
         "build": "rm -rf build && cd lib && tsc && cd .. && node ./scripts/copy-npm-files.js && echo Build completed!",
-        "release": "release-it"
+        "release": "release-it",
+        "example": "(yarn build && cd example && yarn --force && cd ios && pod install && cd .. && yarn start)"
     },
     "repository": {
         "type": "git",
