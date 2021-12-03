@@ -6,7 +6,7 @@
     "main": "./build/dist/index.js",
     "access": "public",
     "scripts": {
-        "build": "rm -rf build && cd lib && tsc && echo Build completed!",
+        "build": "rm -rf build && cd lib && tsc && cd .. && node ./scripts/copy-npm-files.js && echo Build completed!",
         "release": "release-it"
     },
     "repository": {
@@ -39,7 +39,9 @@
         "release-it": "^14.11.8",
         "typescript": "^4.0.3"
     },
-    "dependencies": {},
+    "dependencies": {
+        "events": "^3.3.0"
+    },
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org/"

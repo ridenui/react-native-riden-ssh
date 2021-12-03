@@ -9,9 +9,12 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {SSHClient} from '@ridenui/react-native-riden-ssh';
+import {StyleSheet, Text, View, Button, NativeEventEmitter} from 'react-native';
+import {SSHClient} from '@ridenui/react-native-riden-ssh-test/build/dist/index';
 import {SSH_HOST, SSH_USER, SSH_PORT, SSH_PASSWORD} from '@env';
+import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
+// import BatchedBridge from 'react-native/Libraries/BatchedBridge/BatchedBridge.js';
+// import RCTDeviceEventEmitter from 'react-native/Libraries/EventEmitter/RCTDeviceEventEmitter.js';
 
 export default class App extends Component<{}> {
     state = {
@@ -22,14 +25,18 @@ export default class App extends Component<{}> {
         php: '--',
         node: '--',
         executionTime: '--',
+        cancelOutput: '--',
     };
 
-    client = new SSHClient({
-        username: SSH_USER,
-        host: SSH_HOST,
-        port: parseInt(SSH_PORT ?? '22', 10),
-        password: SSH_PASSWORD,
-    });
+    client = new SSHClient(
+        {
+            username: SSH_USER,
+            host: SSH_HOST,
+            port: parseInt(SSH_PORT ?? '22', 10),
+            password: SSH_PASSWORD,
+        },
+        NativeEventEmitter,
+    );
 
     retry() {
         this.test();
@@ -83,9 +90,37 @@ export default class App extends Component<{}> {
                     running: false,
                     executionTime: new Date() - start,
                 });
+
+                MessageQueue.spy((spyData: SpyData) => {
+                    if (spyData.module === 'RCTDeviceEventEmitter') {
+                        console.log({spyData});
+                    }
+                });
+
+                return this.client.executeWithCancel(
+                    'while [ 1 ]; do echo "Hello"; sleep 1; done',
+                    cancel => {
+                        setTimeout(() => {
+                            cancel()
+                                .then(() => {
+                                    console.log('cancelled');
+                                })
+                                .catch(e => {
+                                    console.log('Cancel error');
+                                });
+                        }, 2500);
+                    },
+                );
+            })
+            .then(response => {
+                this.setState({
+                    ...this.state,
+                    status: 'native callback received no.5',
+                    cancelOutput: response.stdout.join('\n'),
+                });
             })
             .catch(e => {
-                console.error(e);
+                console.error('gesamt error');
             });
     }
 
@@ -111,6 +146,9 @@ export default class App extends Component<{}> {
                 <Text style={styles.instructions}>Node: {this.state.node}</Text>
                 <Text style={styles.instructions}>
                     Exec Time: {this.state.executionTime}
+                </Text>
+                <Text style={styles.instructions}>
+                    Cancel output: {this.state.cancelOutput}
                 </Text>
                 <Button
                     onPress={() => this.retry()}
