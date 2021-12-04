@@ -155,7 +155,7 @@ export class SSHClient extends EventEmitter {
         }
     }
 
-    addListenerWithRemove(
+    private addListenerWithRemove(
         eventName: string | symbol,
         listener: (...args: any[]) => void
     ) {
