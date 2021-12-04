@@ -77,51 +77,46 @@ export class SSHClient extends EventEmitter {
         this.lock.release();
     }
 
-    async execute(command: string): Promise<IExecuteResult> {
-        await this.lock.waitForRelease();
-        if (!this.connectionId) {
-            await this.connect();
-        }
-        return await SSH.executeCommand(this.connectionId, command);
-    }
-
-    addListenerWithRemove(
-        eventName: string | symbol,
-        listener: (...args: any[]) => void
-    ) {
-        this.addListener(eventName, listener);
-        return [
-            () => {
-                this.removeListener(eventName, listener);
-            },
-        ];
-    }
-
-    async executeWithCancel(
+    execute<T extends boolean>(
         command: string,
-        cancelCallback?: (cancel: () => Promise<void>) => void
-    ): Promise<IExecuteResult> {
-        await this.lock.waitForRelease();
-        if (!this.connectionId) {
-            await this.connect();
-        }
+        cancelable?: T
+    ): Promise<
+        T extends true
+            ? [Promise<IExecuteResult>, () => void]
+            : Promise<IExecuteResult>
+    >;
 
-        return new Promise((resolve, reject) => {
-            SSH.executeCommandCancelable(
-                this.connectionId,
-                command,
-                (functionId, channelId) => {
-                    if (
-                        cancelCallback &&
-                        typeof cancelCallback === "function"
-                    ) {
-                        cancelCallback(async () => {
+    async execute(
+        command: string,
+        cancelable?: boolean
+    ): Promise<
+        [Promise<IExecuteResult>, () => void] | Promise<IExecuteResult>
+    > {
+        if (cancelable) {
+            await this.lock.waitForRelease();
+            if (!this.connectionId) {
+                await this.connect();
+            }
+            let cancelFunction: () => Promise<void>;
+            let functionId;
+            await new Promise<void>((resolve) => {
+                SSH.executeCommandCancelable(
+                    this.connectionId,
+                    command,
+                    (functionIdNew, channelId) => {
+                        cancelFunction = () => {
                             return SSH.cancelCommand(
                                 this.connectionId,
                                 channelId
-                            );
-                        });
+                            ).catch(() => Promise.resolve());
+                        };
+                        functionId = functionIdNew;
+                        resolve();
                     }
+                );
+            });
+            return [
+                new Promise((resolve, reject) => {
                     const [removeResolve] = this.addListenerWithRemove(
                         NATIVE_EVENTS.RESOLVE,
                         ([eventFunctionId, args]) => {
@@ -145,9 +140,31 @@ export class SSHClient extends EventEmitter {
                         removeResolve();
                         removeReject();
                     }
-                }
-            );
-        });
+                }),
+                // Required because typescript doesn't understand that we can't reach this part of the code without
+                // the assignment of this function
+                // @ts-ignore
+                cancelFunction,
+            ];
+        } else {
+            await this.lock.waitForRelease();
+            if (!this.connectionId) {
+                await this.connect();
+            }
+            return await SSH.executeCommand(this.connectionId, command);
+        }
+    }
+
+    addListenerWithRemove(
+        eventName: string | symbol,
+        listener: (...args: any[]) => void
+    ) {
+        this.addListener(eventName, listener);
+        return [
+            () => {
+                this.removeListener(eventName, listener);
+            },
+        ];
     }
 
     async isConnected() {

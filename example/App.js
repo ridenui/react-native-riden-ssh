@@ -10,6 +10,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, NativeEventEmitter} from 'react-native';
+// idk why, but metro needs the full path here
 import {SSHClient} from '@ridenui/react-native-riden-ssh-test/build/dist/index';
 import {SSH_HOST, SSH_USER, SSH_PORT, SSH_PASSWORD} from '@env';
 import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
@@ -92,25 +93,26 @@ export default class App extends Component<{}> {
                 });
 
                 MessageQueue.spy((spyData: SpyData) => {
-                    if (spyData.module === 'RCTDeviceEventEmitter') {
+                    if (
+                        spyData.module === 'RCTDeviceEventEmitter' ||
+                        spyData.module === 'SSH'
+                    ) {
                         console.log({spyData});
                     }
                 });
 
-                return this.client.executeWithCancel(
+                return this.client.execute(
                     'while [ 1 ]; do echo "Hello"; sleep 1; done',
-                    cancel => {
-                        setTimeout(() => {
-                            cancel()
-                                .then(() => {
-                                    console.log('cancelled');
-                                })
-                                .catch(e => {
-                                    console.log('Cancel error');
-                                });
-                        }, 2500);
-                    },
+                    true,
                 );
+            })
+            .then(([promise, cancel]) => {
+                setTimeout(async () => {
+                    await cancel();
+                    console.log('cancelled');
+                }, 4000);
+
+                return promise;
             })
             .then(response => {
                 this.setState({
@@ -120,7 +122,7 @@ export default class App extends Component<{}> {
                 });
             })
             .catch(e => {
-                console.error('gesamt error');
+                console.error('gesamt error: ', e);
             });
     }
 
