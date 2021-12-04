@@ -22,10 +22,9 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,c,cc,cpp,m,mm,swift}"
   s.exclude_files = "ios/Pods/**/*", "ios/Podfile", "ios/Podfile.lock"
-  s.requires_arc = true
+  s.requires_arc = false
 
   s.dependency "React"
-
-  s.dependency "NMSSH-riden", "~> 2.5.5"
+  s.dependency "NMSSH-riden", "~> 2.5.6"
 end
 

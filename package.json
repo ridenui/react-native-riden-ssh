@@ -6,8 +6,9 @@
     "main": "./build/dist/index.js",
     "access": "public",
     "scripts": {
-        "build": "rm -rf build && cd lib && tsc && echo Build completed!",
-        "release": "release-it"
+        "build": "rm -rf build && cd lib && tsc && cd .. && node ./scripts/copy-npm-files.js && echo Build completed!",
+        "release": "release-it",
+        "example": "(yarn build && cd example && yarn --force && cd ios && pod install && cd .. && yarn start)"
     },
     "repository": {
         "type": "git",
@@ -39,7 +40,9 @@
         "release-it": "^14.11.8",
         "typescript": "^4.0.3"
     },
-    "dependencies": {},
+    "dependencies": {
+        "events": "^3.3.0"
+    },
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org/"

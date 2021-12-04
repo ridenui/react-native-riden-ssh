@@ -46,3 +46,4 @@ build
 example/.env
 example/ios/Pods
 ios/Pods
+package

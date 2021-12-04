@@ -3,3 +3,10 @@ ios/Pods
 ios/Podfile
 ios/Podfile.lock
 ios/ReactNativeRidenSsh.xc*
+.idea
+scripts
+.release-it.json
+.github
+.editorconfig
+package
+scripts
