@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.4.1...1.5.0) (2021-12-04)
+
+
+### Features
+
+* **ssh:** implement cancelable command execution ([529e80b](https://github.com/ridenui/react-native-riden-ssh/commit/529e80b70bd2a597e7352b4949def8b4858b6fec))
+
 ## [1.4.1](https://github.com/ridenui/react-native-riden-ssh/compare/1.4.0...1.4.1) (2021-12-02)
 
 # [1.4.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.3.0...1.4.0) (2021-12-02)
