@@ -33,4 +33,8 @@
                       channelId: (NSString *)channelId
                       resolver: (RCTPromiseResolveBlock)resolve
                       rejecter: (RCTPromiseRejectBlock)reject)
+
+    RCT_EXTERN_METHOD(executeStreamCommand: (NSString *)connectionId
+                  command: (NSString *)command
+                  eventCallback: (RCTResponseSenderBlock)eventCallback)
 @end

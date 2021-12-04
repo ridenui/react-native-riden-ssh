@@ -17,16 +17,23 @@ import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
 // import BatchedBridge from 'react-native/Libraries/BatchedBridge/BatchedBridge.js';
 // import RCTDeviceEventEmitter from 'react-native/Libraries/EventEmitter/RCTDeviceEventEmitter.js';
 
+const startState = {
+    status: 'starting',
+    uptime: '--',
+    exitCode: '--',
+    running: false,
+    php: '--',
+    node: '--',
+    executionTime: '--',
+    cancelOutput: '--',
+    streamOutput: ['--'],
+};
+
 export default class App extends Component<{}> {
+    cancel = async () => {};
+
     state = {
-        status: 'starting',
-        uptime: '--',
-        exitCode: '--',
-        running: false,
-        php: '--',
-        node: '--',
-        executionTime: '--',
-        cancelOutput: '--',
+        ...startState,
     };
 
     client = new SSHClient(
@@ -47,12 +54,15 @@ export default class App extends Component<{}> {
         this.client.disconnect();
     }
 
-    test() {
+    async test() {
         if (this.state.running) return;
         this.setState({
-            ...this.state,
+            ...startState,
             running: true,
         });
+        if (this.cancel) {
+            await this.cancel();
+        }
         const start = new Date();
         this.client
             .execute('uptime')
@@ -121,6 +131,39 @@ export default class App extends Component<{}> {
                     cancelOutput: response.stdout.join('\n'),
                 });
             })
+            .then(() => {
+                return this.client.executeStream(
+                    'while [ 1 ]; do echo "Hello"; sleep 1; done',
+                    true,
+                );
+            })
+            .then(async ([eventEmitter, cancel, resultPromise]) => {
+                this.cancel = cancel;
+
+                const stdoutHandler = line => {
+                    this.setState({
+                        ...this.state,
+                        streamOutput: [
+                            ...this.state.streamOutput.filter(v => v !== '--'),
+                            line,
+                        ],
+                    });
+                };
+                eventEmitter.addListener('onNewStdoutLine', stdoutHandler);
+
+                setTimeout(() => {
+                    console.log('CANCEL THIS DIP SHIT');
+                    cancel().then(() => {
+                        console.log('Cancelled successfully');
+                    });
+                }, 10000);
+
+                const {code} = await resultPromise;
+
+                eventEmitter.removeListener('onNewStdoutLine', stdoutHandler);
+
+                console.log({code});
+            })
             .catch(e => {
                 console.error('gesamt error: ', e);
             });
@@ -151,6 +194,9 @@ export default class App extends Component<{}> {
                 </Text>
                 <Text style={styles.instructions}>
                     Cancel output: {this.state.cancelOutput}
+                </Text>
+                <Text style={styles.instructions}>
+                    StreamOutput: {this.state.streamOutput.join('\n')}
                 </Text>
                 <Button
                     onPress={() => this.retry()}

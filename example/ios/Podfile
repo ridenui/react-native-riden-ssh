@@ -18,8 +18,9 @@ target 'example' do
     # Pods for testing
   end
 
-  pod "NMSSH-riden", :git => "../../../NMSSH", :tag => "2.5.6"
+#   pod "NMSSH-riden", :git => "../../../NMSSH", :tag => "2.6.3"
   pod "react-native-riden-ssh", :path => "../node_modules/@ridenui/react-native-riden-ssh-test/"
+  pod "NMSSH-riden", :path => "../../../NMSSH"
 
   # Enables Flipper.
   #

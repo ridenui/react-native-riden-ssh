@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5B194B47F1F8AA1CAB1A0401 /* libPods-ReactNativeRidenSsh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2462D9B2A67A21FDD99E18DF /* libPods-ReactNativeRidenSsh.a */; };
+		FB8EB7CF275B932E005EBA02 /* StreamBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8EB7CE275B932E005EBA02 /* StreamBridge.swift */; };
+		FB8EB7D1275BA3C9005EBA02 /* DispatchQueue+current.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8EB7D0275BA3C9005EBA02 /* DispatchQueue+current.swift */; };
 		FB95DB132757B91100CDC510 /* ReactNativeRidenSsh.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95DB102757B91100CDC510 /* ReactNativeRidenSsh.swift */; };
 		FB95DB142757B91100CDC510 /* ReactNativeRidenSsh.m in Sources */ = {isa = PBXBuildFile; fileRef = FB95DB122757B91100CDC510 /* ReactNativeRidenSsh.m */; };
 /* End PBXBuildFile section */
@@ -29,6 +31,8 @@
 		2462D9B2A67A21FDD99E18DF /* libPods-ReactNativeRidenSsh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeRidenSsh.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A1E3AD50435FC68140BD948 /* Pods-ReactNativeRidenSsh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeRidenSsh.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeRidenSsh/Pods-ReactNativeRidenSsh.release.xcconfig"; sourceTree = "<group>"; };
 		B7CD7A9E07C19BF07141AA01 /* Pods-ReactNativeRidenSsh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeRidenSsh.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeRidenSsh/Pods-ReactNativeRidenSsh.debug.xcconfig"; sourceTree = "<group>"; };
+		FB8EB7CE275B932E005EBA02 /* StreamBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamBridge.swift; sourceTree = "<group>"; };
+		FB8EB7D0275BA3C9005EBA02 /* DispatchQueue+current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+current.swift"; sourceTree = "<group>"; };
 		FB95DB102757B91100CDC510 /* ReactNativeRidenSsh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactNativeRidenSsh.swift; sourceTree = "<group>"; };
 		FB95DB112757B91100CDC510 /* react-native-riden-ssh-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "react-native-riden-ssh-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB95DB122757B91100CDC510 /* ReactNativeRidenSsh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeRidenSsh.m; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				FB8EB7D0275BA3C9005EBA02 /* DispatchQueue+current.swift */,
+				FB8EB7CE275B932E005EBA02 /* StreamBridge.swift */,
 				FB95DB112757B91100CDC510 /* react-native-riden-ssh-Bridging-Header.h */,
 				FB95DB122757B91100CDC510 /* ReactNativeRidenSsh.m */,
 				FB95DB102757B91100CDC510 /* ReactNativeRidenSsh.swift */,
@@ -168,6 +174,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB95DB142757B91100CDC510 /* ReactNativeRidenSsh.m in Sources */,
+				FB8EB7D1275BA3C9005EBA02 /* DispatchQueue+current.swift in Sources */,
+				FB8EB7CF275B932E005EBA02 /* StreamBridge.swift in Sources */,
 				FB95DB132757B91100CDC510 /* ReactNativeRidenSsh.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
