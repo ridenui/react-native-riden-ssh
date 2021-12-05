@@ -3,7 +3,6 @@
 //  ReactNativeRidenSsh
 //
 //  Created by Nils Bergmann on 04/12/2021.
-//  Copyright © 2021 Facebook. All rights reserved.
 //
 
 import Foundation
