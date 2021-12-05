@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.5.0...1.6.0) (2021-12-05)
+
+
+### Features
+
+* **ssh:** add ability to stream commands ([#5](https://github.com/ridenui/react-native-riden-ssh/issues/5)) ([59a4435](https://github.com/ridenui/react-native-riden-ssh/commit/59a443570ac7804d10a2461404ef0491147bad24))
+
 # [1.5.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.4.1...1.5.0) (2021-12-04)
 
 
