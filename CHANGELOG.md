@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/ridenui/react-native-riden-ssh/compare/1.6.0...1.6.1) (2021-12-05)
+
+
+### Bug Fixes
+
+* **stdout/stderr:** fix new line split for stderr and stdout ([15647cc](https://github.com/ridenui/react-native-riden-ssh/commit/15647cc1c504336497320151a5ecfae8cb456f08))
+
 # [1.6.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.5.0...1.6.0) (2021-12-05)
 
 
