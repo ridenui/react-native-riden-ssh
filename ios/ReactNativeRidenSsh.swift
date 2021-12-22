@@ -59,12 +59,12 @@ class ReactNativeRidenSsh: RCTEventEmitter {
                     
                     resolve([
                         "code": result.exitCode,
-                        "signal": result.exitSignal,
+                        "signal": result.exitSignal as Any,
                         "stdout": result.stdout.split(whereSeparator: \.isNewline),
                         "stderr": result.stderr.split(whereSeparator: \.isNewline),
                     ])
                 } catch {
-                    reject(error);
+                    reject("ssh_command_exec_error", error.localizedDescription, error);
                 }
             }
         }

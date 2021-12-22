@@ -4,4 +4,3 @@
 
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
-#import <NMSSH-riden/NMSSH.h>
