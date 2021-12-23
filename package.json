@@ -1,7 +1,7 @@
 {
     "name": "@ridenui/react-native-riden-ssh",
     "title": "React Native Riden Ssh",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "description": "ssh module for ridenui using NMSSH fork",
     "main": "./build/dist/index.js",
     "access": "public",

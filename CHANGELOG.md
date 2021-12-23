@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/ridenui/react-native-riden-ssh/compare/1.7.1...1.7.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* prevent the opening of multiple pools for the same connection ([#8](https://github.com/ridenui/react-native-riden-ssh/issues/8)) ([06db913](https://github.com/ridenui/react-native-riden-ssh/commit/06db9138aaea4eccb165f2e379599333f7cd6b72))
+
 ## [1.7.1](https://github.com/ridenui/react-native-riden-ssh/compare/1.7.0...1.7.1) (2021-12-23)
 
 
