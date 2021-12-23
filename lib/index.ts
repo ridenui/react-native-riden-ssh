@@ -30,6 +30,7 @@ enum NATIVE_EVENTS {
     REJECT = "react-native-riden-ssh-reject",
     ON_STDOUT = "react-native-riden-ssh-on-stdout",
     ON_STDERR = "react-native-riden-ssh-on-stderr",
+    ON_CANCEL_ID = "react-native-riden-ssh-cancel-id"
 }
 
 export class SSHClient extends EventEmitter {
@@ -56,6 +57,7 @@ export class SSHClient extends EventEmitter {
             NATIVE_EVENTS.REJECT,
             NATIVE_EVENTS.ON_STDERR,
             NATIVE_EVENTS.ON_STDOUT,
+            NATIVE_EVENTS.ON_CANCEL_ID
         ];
 
         for (const event of events) {
@@ -99,26 +101,40 @@ export class SSHClient extends EventEmitter {
         if (!this.connectionId) {
             await this.connect();
         }
-        let cancelFunction: () => Promise<void>;
         let functionId;
+        let resolveCancelIdCallback;
+        let _cancelFunction = new Promise((resolveCancelId) => {
+            resolveCancelIdCallback = resolveCancelId;
+        });
+        let cancelFunction: () => Promise<void> = async () => {
+            let cancelId = await _cancelFunction;
+            await SSH.cancelCommand(
+                this.connectionId,
+                cancelId,
+            ).catch((e) => {
+                return Promise.resolve();
+            })
+        };
+
+        const [removeOnCancelId] = this.addListenerWithRemove(NATIVE_EVENTS.ON_CANCEL_ID, ([eventFunctionId, [cancelId]]) => {
+            if (eventFunctionId !== functionId) return;
+            console.log("Got cancel id")
+            if (resolveCancelIdCallback) {
+                resolveCancelIdCallback(cancelId);
+            }
+        })
+
         await new Promise<void>((resolve) => {
             SSH.executeStreamCommand(
                 this.connectionId,
                 command,
-                (functionIdNew, channelId) => {
-                    cancelFunction = () => {
-                        return SSH.cancelCommand(
-                            this.connectionId,
-                            channelId
-                        ).catch((e) => {
-                            return Promise.resolve();
-                        });
-                    };
+                (functionIdNew) => {
                     functionId = functionIdNew;
                     resolve();
                 }
             );
         });
+
         const eventEmitter = new EventEmitter();
 
         let stdout_buffer = "";
@@ -184,6 +200,7 @@ export class SSHClient extends EventEmitter {
                     removeReject();
                     removeOnStdout();
                     removeOnStderr();
+                    removeOnCancelId();
                 }
             }),
         ];
@@ -209,26 +226,40 @@ export class SSHClient extends EventEmitter {
             if (!this.connectionId) {
                 await this.connect();
             }
-            let cancelFunction: () => Promise<void>;
+            let resolveCancelIdCallback;
+            let _cancelFunction = new Promise((resolveCancelId) => {
+                resolveCancelIdCallback = resolveCancelId;
+            });
+            let cancelFunction: () => Promise<void> = async () => {
+                let cancelId = await _cancelFunction;
+                await SSH.cancelCommand(
+                    this.connectionId,
+                    cancelId,
+                ).catch((e) => {
+                    return Promise.resolve();
+                })
+            };
             let functionId;
             await new Promise<void>((resolve) => {
                 SSH.executeCommandCancelable(
                     this.connectionId,
                     command,
-                    (functionIdNew, channelId) => {
-                        cancelFunction = () => {
-                            return SSH.cancelCommand(
-                                this.connectionId,
-                                channelId
-                            ).catch((e) => {
-                                return Promise.resolve();
-                            });
-                        };
+                    (functionIdNew) => {
                         functionId = functionIdNew;
                         resolve();
                     }
                 );
             });
+
+            const [removeOnCancelId] = this.addListenerWithRemove(NATIVE_EVENTS.ON_CANCEL_ID, ([eventFunctionId, [cancelId]]) => {
+                console.log(`Got cancel ${eventFunctionId} ${functionId} ${cancelId}`)
+                if (eventFunctionId !== functionId) return;
+                console.log("Got cancel id")
+                if (resolveCancelIdCallback) {
+                    resolveCancelIdCallback(cancelId);
+                }
+            })
+
             return [
                 new Promise((resolve, reject) => {
                     const [removeResolve] = this.addListenerWithRemove(
@@ -253,6 +284,7 @@ export class SSHClient extends EventEmitter {
                     function clearEvents() {
                         removeResolve();
                         removeReject();
+                        removeOnCancelId();
                     }
                 }),
                 // Required because typescript doesn't understand that we can't reach this part of the code without

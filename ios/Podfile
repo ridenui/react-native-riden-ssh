@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 # Uncomment the next line to define a global platform for your project
-platform :ios, '11.0'
+platform :ios, '13.0'
 
 target 'ReactNativeRidenSsh' do
   config = use_native_modules!
@@ -13,10 +13,15 @@ target 'ReactNativeRidenSsh' do
   )
 
   # Pods for ReactNativeRidenSsh
-  pod "NMSSH-riden", :git => "../../NMSSH", :tag => "2.6.4"
+  pod "SwifterSwiftSSH", :path => "../../swifter-swift-ssh"
 
   post_install do |installer|
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings.delete('IPHONEOS_DEPLOYMENT_TARGET')
+       end
+    end
   end
 end
