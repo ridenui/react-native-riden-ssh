@@ -69,6 +69,10 @@ export class SSHClient extends EventEmitter {
 
     async connect() {
         await this.lock.acquireAsync();
+        if (this.connectionId) {
+            this.lock.release();
+            return;
+        }
         try {
             this.connectionId = await SSH.connect(
                 this.config.host,
