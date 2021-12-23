@@ -274,7 +274,7 @@ PODS:
     - React-jsi (= 0.66.3)
     - React-logger (= 0.66.3)
     - React-perflogger (= 0.66.3)
-  - SwifterSwiftSSH (1.0.2)
+  - SwifterSwiftSSH (1.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -309,13 +309,12 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - SwifterSwiftSSH
+  - SwifterSwiftSSH (from `../../swifter-swift-ssh`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - fmt
-    - SwifterSwiftSSH
 
 EXTERNAL SOURCES:
   boost:
@@ -376,6 +375,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  SwifterSwiftSSH:
+    :path: "../../swifter-swift-ssh"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -410,9 +411,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 50cfe7049167cfc7e83ac5542c6fff0c76791a9b
   React-runtimeexecutor: bbbdb3d8fcf327c6e2249ee71b6ef1764b7dc266
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
-  SwifterSwiftSSH: f6c56cd3f963da4665999b0e79c4398fb68e0100
+  SwifterSwiftSSH: 99c969fe647380a7e1e9acb6043b5f18ffd52e29
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
 
-PODFILE CHECKSUM: d407f50ad5b902878e9f5305e40012b867026b41
+PODFILE CHECKSUM: 75abb3d10129d33f76d31b1bc3e0bcde61201854
 
 COCOAPODS: 1.11.2

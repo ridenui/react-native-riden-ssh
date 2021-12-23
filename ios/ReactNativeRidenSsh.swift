@@ -29,9 +29,28 @@ class ReactNativeRidenSsh: RCTEventEmitter {
     @objc(connect:port:username:password:resolver:rejecter:)
     func connect(_ host: String, port: NSNumber, username: String, password: String, resolver resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         let id = UUID().uuidString;
-        let options = SSHOption(host: host, port: port.intValue, username: username, password: password);
-        sessionMap[id] = SSH(options: options)
-        resolve(id);
+        do {
+            let folderURL = try FileManager.default.url(
+                for: .documentDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: false
+            )
+            let knownHostFile = folderURL.appendingPathComponent("known_hosts")
+            let idLocation = folderURL.appendingPathComponent("id_rsa")
+            
+            let keyPair = try generateRSAKeyPair();
+            
+            if !FileManager.default.fileExists(atPath: idLocation.path) {
+                try keyPair.privateKey.write(toFile: idLocation.path, atomically: true, encoding: .utf8);
+            }
+            let options = SSHOption(host: host, port: port.intValue, username: username, password: password, knownHostFile: knownHostFile.path, idRsaLocation: idLocation.path);
+            sessionMap[id] = SSH(options: options)
+            resolve(id);
+        } catch {
+            reject("ssh-init-failed", error.localizedDescription, error);
+        }
+        
     }
 
     @objc(disconnect:resolver:rejecter:)
@@ -64,6 +83,7 @@ class ReactNativeRidenSsh: RCTEventEmitter {
                         "stderr": result.stderr.split(whereSeparator: \.isNewline),
                     ])
                 } catch {
+                    print(error)
                     reject("ssh_command_exec_error", error.localizedDescription, error);
                 }
             }
@@ -117,6 +137,7 @@ class ReactNativeRidenSsh: RCTEventEmitter {
                         ]
                     ])
                 } catch {
+                    print(error)
                     resolverCallback(NATIVE_EVENTS.reject, [
                         [
                             "id": "ssh_error",
@@ -156,7 +177,7 @@ class ReactNativeRidenSsh: RCTEventEmitter {
 
         DispatchQueue.init(label: "ssh-\(connectionId)-\(channelId)").async {
             
-            Task {
+            Task.detached {
                 let delegate = SSHExecEventHandler(onStdout: nil, onStderr: nil) { cancelId in
                     eventSendCallback(.onCancelId, [cancelId]);
                 }
@@ -173,6 +194,7 @@ class ReactNativeRidenSsh: RCTEventEmitter {
                         ]
                     ])
                 } catch {
+                    print(error)
                     resolverCallback(NATIVE_EVENTS.reject, [
                         [
                             "id": "ssh_error",
@@ -192,9 +214,10 @@ class ReactNativeRidenSsh: RCTEventEmitter {
             self.cancelLock.unlock();
             return;
         }
-        Task {
+        Task.detached {
             try await self.sessionMap[connectionId]!.cancel(id: channelId);
         }
+        print("Received cancel request for channel \(channelId) on \(connectionId)");
         resolve(nil);
     }
 
