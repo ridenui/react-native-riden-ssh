@@ -97,6 +97,7 @@ export class SSHClient extends EventEmitter {
     ): Promise<
         [EventEmitter, () => Promise<void>, Promise<IExecuteStreamResult>]
     > {
+        command = command.replace(/[\r\n]+/gm, '\\n');
         await this.lock.waitForRelease();
         if (!this.connectionId) {
             await this.connect();
@@ -221,6 +222,7 @@ export class SSHClient extends EventEmitter {
     ): Promise<
         [Promise<IExecuteResult>, () => Promise<void>] | Promise<IExecuteResult>
     > {
+        command = command.replace(/[\r\n]+/gm, '\\n');
         if (cancelable) {
             await this.lock.waitForRelease();
             if (!this.connectionId) {
