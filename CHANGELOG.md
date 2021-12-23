@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.6.1...1.7.0) (2021-12-23)
+
+
+### Features
+
+* new ssh backend based on libssh ([#6](https://github.com/ridenui/react-native-riden-ssh/issues/6)) ([8328f43](https://github.com/ridenui/react-native-riden-ssh/commit/8328f4372a3cb12ed7dd9c891461c75a5ab981c9))
+
 ## [1.6.1](https://github.com/ridenui/react-native-riden-ssh/compare/1.6.0...1.6.1) (2021-12-05)
 
 
