@@ -9,7 +9,14 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button, NativeEventEmitter} from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    ScrollView,
+    Button,
+    NativeEventEmitter,
+    View,
+} from 'react-native';
 // idk why, but metro needs the full path here
 import {SSHClient} from '@ridenui/react-native-riden-ssh-test/build/dist/index';
 import {SSH_HOST, SSH_USER, SSH_PORT, SSH_PASSWORD} from '@env';
@@ -175,43 +182,51 @@ export default class App extends Component<{}> {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    ☆ReactNativeRidenSsh example☆
-                </Text>
-                <Text style={styles.instructions}>
-                    STATUS: {this.state.status}
-                </Text>
-                <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-                <Text style={styles.instructions}>{this.state.uptime}</Text>
-                <Text style={styles.instructions}>
-                    ExitCode no.2: {this.state.exitCode}
-                </Text>
-                <Text style={styles.instructions}>PHP: {this.state.php}</Text>
-                <Text style={styles.instructions}>Node: {this.state.node}</Text>
-                <Text style={styles.instructions}>
-                    Exec Time: {this.state.executionTime}
-                </Text>
-                <Text style={styles.instructions}>
-                    Cancel output: {this.state.cancelOutput}
-                </Text>
-                <Text style={styles.instructions}>
-                    StreamOutput: {this.state.streamOutput.join('\n')}
-                </Text>
-                <Button
-                    onPress={() => this.retry()}
-                    title="Rerun"
-                    color="#841584"
-                    accessibilityLabel="Rerun"
-                    disabled={this.state.running}
-                />
-                <Button
-                    onPress={() => this.disconnect()}
-                    title="Disconnect"
-                    color="#841584"
-                    accessibilityLabel="Disconnect"
-                />
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <Text style={styles.welcome}>
+                        ☆ReactNativeRidenSsh example☆
+                    </Text>
+                    <Text style={styles.instructions}>
+                        STATUS: {this.state.status}
+                    </Text>
+                    <Text style={styles.welcome}>
+                        ☆NATIVE CALLBACK MESSAGE☆
+                    </Text>
+                    <Text style={styles.instructions}>{this.state.uptime}</Text>
+                    <Text style={styles.instructions}>
+                        ExitCode no.2: {this.state.exitCode}
+                    </Text>
+                    <Text style={styles.instructions}>
+                        PHP: {this.state.php}
+                    </Text>
+                    <Text style={styles.instructions}>
+                        Node: {this.state.node}
+                    </Text>
+                    <Text style={styles.instructions}>
+                        Exec Time: {this.state.executionTime}
+                    </Text>
+                    <Text style={styles.instructions}>
+                        Cancel output: {this.state.cancelOutput}
+                    </Text>
+                    <Text style={styles.instructions}>
+                        StreamOutput: {this.state.streamOutput.join('\n')}
+                    </Text>
+                    <Button
+                        onPress={() => this.retry()}
+                        title="Rerun"
+                        color="#841584"
+                        accessibilityLabel="Rerun"
+                        disabled={this.state.running}
+                    />
+                    <Button
+                        onPress={() => this.disconnect()}
+                        title="Disconnect"
+                        color="#841584"
+                        accessibilityLabel="Disconnect"
+                    />
+                </View>
+            </ScrollView>
         );
     }
 }

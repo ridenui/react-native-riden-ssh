@@ -8,7 +8,8 @@
     "scripts": {
         "build": "rm -rf build && cd lib && tsc && cd .. && node ./scripts/copy-npm-files.js && echo Build completed!",
         "release": "release-it",
-        "example": "(yarn build && cd example && yarn --force && cd ios && pod install && cd .. && yarn start)"
+        "example": "(yarn build && cd example && yarn --force && cd ios && pod install && cd .. && yarn start)",
+        "example:update": "(yarn build && cd example && yarn --force && cd ios && pod repo update && (rm Podfile.lock || true) && pod install --repo-update)"
     },
     "repository": {
         "type": "git",
