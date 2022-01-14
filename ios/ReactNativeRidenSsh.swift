@@ -25,6 +25,13 @@ class ReactNativeRidenSsh: RCTEventEmitter {
     private var sessionMap: Dictionary<String, SSH> = [:];
 
     let cancelLock = NSLock();
+    
+    override init() {
+        super.init();
+        print("+ openConsolePipe()");
+        self.openConsolePipe();
+        print("- openConsolePipe()");
+    }
 
     @objc(connect:port:username:password:resolver:rejecter:)
     func connect(_ host: String, port: NSNumber, username: String, password: String, resolver resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
@@ -237,5 +244,89 @@ class ReactNativeRidenSsh: RCTEventEmitter {
     override func startObserving() {
         hasListeners = true;
     }
+    
+    var inputPipe: Pipe?;
+    
+    var outputPipe: Pipe?;
 
+    func openConsolePipe() {
+        //open a new Pipe to consume the messages on STDOUT and STDERR
+        inputPipe = Pipe()
+
+        //open another Pipe to output messages back to STDOUT
+        outputPipe = Pipe()
+                
+        guard let inputPipe = inputPipe, let outputPipe = outputPipe else {
+            return
+        }
+                
+        let pipeReadHandle = inputPipe.fileHandleForReading
+
+        //from documentation
+        //dup2() makes newfd (new file descriptor) be the copy of oldfd (old file descriptor), closing newfd first if necessary.
+                
+        //here we are copying the STDOUT file descriptor into our output pipe's file descriptor
+        //this is so we can write the strings back to STDOUT, so it can show up on the xcode console
+        dup2(STDOUT_FILENO, outputPipe.fileHandleForWriting.fileDescriptor)
+                
+        //In this case, the newFileDescriptor is the pipe's file descriptor and the old file descriptor is STDOUT_FILENO and STDERR_FILENO
+                        
+        dup2(inputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        dup2(inputPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+
+        //listen in to the readHandle notification
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handlePipeNotification), name: FileHandle.readCompletionNotification, object: pipeReadHandle)
+
+        //state that you want to be notified of any data coming across the pipe
+        pipeReadHandle.readInBackgroundAndNotify()
+    }
+    
+    @objc func handlePipeNotification(notification: Notification) {
+        //note you have to continuously call this when you get a message
+        //see this from documentation:
+        //Note that this method does not cause a continuous stream of notifications to be sent. If you wish to keep getting notified, you’ll also need to call readInBackgroundAndNotify() in your observer method.
+        inputPipe?.fileHandleForReading.readInBackgroundAndNotify()
+
+        if let userInfo = notification.userInfo, let data = userInfo[NSFileHandleNotificationDataItem] as? Data,
+            let str = String(data: data, encoding: String.Encoding.ascii) {
+                        
+            //write the data back into the output pipe. the output pipe's write file descriptor points to STDOUT. this allows the logs to show up on the xcode console
+            outputPipe?.fileHandleForWriting.write(data)
+
+            // `str` here is the log/contents of the print statement
+            //if you would like to route your print statements to the UI: make
+            //sure to subscribe to this notification in your VC and update the UITextView.
+            //Or if you wanted to send your print statements to the server, then
+            //you could do this in your notification handler in the app delegate.
+            
+            guard let logFile = ReactNativeRidenSsh.logFile else {
+                return
+            }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm:ss"
+            let timestamp = formatter.string(from: Date())
+            
+            guard let logData = (timestamp + ": " + str + "\n").data(using: String.Encoding.utf8) else { return }
+            
+            if FileManager.default.fileExists(atPath: logFile.path) {
+                if let fileHandle = try? FileHandle(forWritingTo: logFile) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(logData)
+                    fileHandle.closeFile()
+                }
+            } else {
+                try? logData.write(to: logFile, options: .atomicWrite)
+            }
+        }
+    }
+    
+    static var logFile: URL? {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        let dateString = formatter.string(from: Date())
+        let fileName = "\(dateString).log"
+        return documentsDirectory.appendingPathComponent(fileName)
+    }
 }

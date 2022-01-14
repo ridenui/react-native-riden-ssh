@@ -1156,7 +1156,7 @@
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
 "@ridenui/react-native-riden-ssh-test@file:../package":
-  version "1.6.1"
+  version "1.7.5"
   dependencies:
     events "^3.3.0"
 
