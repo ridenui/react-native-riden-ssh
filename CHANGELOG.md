@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/ridenui/react-native-riden-ssh/compare/1.7.6...1.8.0) (2022-01-14)
+
+
+### Features
+
+* **logging:** log stdout and stderr to log file ([854bbc1](https://github.com/ridenui/react-native-riden-ssh/commit/854bbc112202713b24e6c70f9233cd5faebb7a0e))
+
 ## [1.7.6](https://github.com/ridenui/react-native-riden-ssh/compare/1.7.5...1.7.6) (2022-01-13)
 
 ## [1.7.5](https://github.com/ridenui/react-native-riden-ssh/compare/1.7.4...1.7.5) (2021-12-23)
