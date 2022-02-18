@@ -1,3 +1,5 @@
+## [1.8.8](https://github.com/ridenui/react-native-riden-ssh/compare/1.8.7...1.8.8) (2022-02-18)
+
 ## [1.8.7](https://github.com/ridenui/react-native-riden-ssh/compare/1.8.6...1.8.7) (2022-02-18)
 
 ## [1.8.6](https://github.com/ridenui/react-native-riden-ssh/compare/1.8.5...1.8.6) (2022-02-18)
