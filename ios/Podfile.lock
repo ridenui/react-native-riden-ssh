@@ -274,7 +274,7 @@ PODS:
     - React-jsi (= 0.66.3)
     - React-logger (= 0.66.3)
     - React-perflogger (= 0.66.3)
-  - SwifterSwiftSSH (1.0)
+  - SwifterSwiftSSH (1.1.15)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -411,7 +411,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 50cfe7049167cfc7e83ac5542c6fff0c76791a9b
   React-runtimeexecutor: bbbdb3d8fcf327c6e2249ee71b6ef1764b7dc266
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
-  SwifterSwiftSSH: 99c969fe647380a7e1e9acb6043b5f18ffd52e29
+  SwifterSwiftSSH: cdcd77029ddc4d3367cdf4e02bd08febd610b0dd
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
 
 PODFILE CHECKSUM: 75abb3d10129d33f76d31b1bc3e0bcde61201854
