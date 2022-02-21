@@ -25,6 +25,6 @@ Pod::Spec.new do |s|
   s.requires_arc = false
 
   s.dependency "React"
-  s.dependency "SwifterSwiftSSH", "~> 1.1.16"
+  s.dependency "SwifterSwiftSSH", "~> 1.1.17"
 end
 
